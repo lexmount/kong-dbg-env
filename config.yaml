@@ -6,6 +6,254 @@ metadata:
 data:
   # 将你的 kong.yml 内容粘贴在这里
   kong.yml: |
-    _format_version: "1.1"
-    services: []
-  KONG_ADMIN_GUI_API_URL: "http://test.local.lexmount.net:8081/api"
+    _format_version: '3.0'
+    _transform: false
+
+    parameters:
+    - value: e55d5c5a-cba3-4c1a-95c0-7533bf86a746
+      created_at: ~
+      key: cluster_id
+    services:
+    - connect_timeout: 60000
+      protocol: http
+      updated_at: 1767604285
+      path: ~
+      retries: 5
+      tls_verify: ~
+      tls_verify_depth: ~
+      tags: ~
+      ca_certificates: ~
+      write_timeout: 60000
+      host: browser-manager.system.svc.cluster.local
+      port: 9222
+      client_certificate: ~
+      enabled: true
+      created_at: 1767604285
+      name: Browser
+      read_timeout: 60000
+      id: 705f8c71-1c30-4668-a8b0-4989dc922f85
+    - connect_timeout: 60000
+      protocol: http
+      updated_at: 1767521028
+      path: ~
+      retries: 5
+      tls_verify: ~
+      tls_verify_depth: ~
+      tags: ~
+      ca_certificates: ~
+      write_timeout: 60000
+      host: lex-home.frontend.svc.cluster.local
+      port: 3000
+      client_certificate: ~
+      enabled: true
+      created_at: 1767521028
+      name: LexWebsite
+      read_timeout: 60000
+      id: 7bb2f959-34c2-4124-bd33-99532cc7079b
+    - connect_timeout: 60000
+      protocol: http
+      updated_at: 1767602372
+      path: ~
+      retries: 5
+      tls_verify: ~
+      tls_verify_depth: ~
+      tags: ~
+      ca_certificates: ~
+      write_timeout: 60000
+      host: browser-dev.system.svc.cluster.local
+      port: 80
+      client_certificate: ~
+      enabled: true
+      created_at: 1767602372
+      name: browser_dev
+      read_timeout: 60000
+      id: 98a533cc-73b1-4f9f-8001-fd21458d0737
+    - connect_timeout: 60000
+      protocol: http
+      updated_at: 1768357279
+      path: ~
+      retries: 5
+      tls_verify: ~
+      tls_verify_depth: ~
+      tags: ~
+      ca_certificates: ~
+      write_timeout: 60000
+      host: grafana-service.monitoring.svc.cluster.local
+      port: 3000
+      client_certificate: ~
+      enabled: true
+      created_at: 1768357279
+      name: Grafana
+      read_timeout: 60000
+      id: 9e2fc017-0e63-43ed-a831-41924a7909ad
+    routes:
+    - preserve_host: true
+      created_at: 1768357312
+      https_redirect_status_code: 426
+      strip_path: false
+      path_handling: v0
+      request_buffering: true
+      snis: ~
+      response_buffering: true
+      tags: []
+      headers: ~
+      hosts:
+      - opstest.local.lexmount.net
+      service: 9e2fc017-0e63-43ed-a831-41924a7909ad
+      sources: ~
+      regex_priority: 0
+      paths:
+      - /grafana
+      protocols:
+      - http
+      - https
+      destinations: ~
+      name: ops-grafana
+      updated_at: 1768359048
+      id: 6c6f181e-e2cb-44e1-90fd-2eeb67bc0462
+      methods: ~
+    - preserve_host: false
+      created_at: 1767604318
+      https_redirect_status_code: 426
+      strip_path: true
+      path_handling: v0
+      request_buffering: true
+      snis: ~
+      response_buffering: true
+      tags: []
+      headers: ~
+      hosts:
+      - apitest.local.lexmount.net
+      service: 705f8c71-1c30-4668-a8b0-4989dc922f85
+      sources: ~
+      regex_priority: 0
+      paths: ~
+      protocols:
+      - http
+      - https
+      destinations: ~
+      name: api-browser
+      updated_at: 1767604318
+      id: 93920655-2b29-4289-b7c3-d14d9c06e8d0
+      methods: ~
+    - preserve_host: false
+      created_at: 1767602395
+      https_redirect_status_code: 426
+      strip_path: true
+      path_handling: v0
+      request_buffering: false
+      snis: ~
+      response_buffering: false
+      tags: []
+      headers: ~
+      hosts:
+      - test.local.lexmount.net
+      service: 98a533cc-73b1-4f9f-8001-fd21458d0737
+      sources: ~
+      regex_priority: 0
+      paths:
+      - /browser_dev
+      protocols:
+      - http
+      - https
+      destinations: ~
+      name: dev-browser_dev
+      updated_at: 1768545109
+      id: b9e9ffbc-4452-46a6-8038-9b204093ed40
+      methods: ~
+    - preserve_host: false
+      created_at: 1768476689
+      https_redirect_status_code: 426
+      strip_path: false
+      path_handling: v0
+      request_buffering: false
+      snis: ~
+      response_buffering: false
+      tags: []
+      headers: ~
+      hosts:
+      - apitest.local.lexmount.net
+      service: 705f8c71-1c30-4668-a8b0-4989dc922f85
+      sources: ~
+      regex_priority: 0
+      paths:
+      - /instance
+      protocols:
+      - http
+      - https
+      destinations: ~
+      name: api-browser-instance
+      updated_at: 1768535042
+      id: e3967b1d-971b-4e40-b1ab-df1e28f55d04
+      methods:
+      - PUT
+      - POST
+      - DELETE
+    - preserve_host: false
+      created_at: 1767521164
+      https_redirect_status_code: 426
+      strip_path: true
+      path_handling: v0
+      request_buffering: true
+      snis: ~
+      response_buffering: true
+      tags: []
+      headers: ~
+      hosts:
+      - test.local.lexmount.net
+      service: 7bb2f959-34c2-4124-bd33-99532cc7079b
+      sources: ~
+      regex_priority: 0
+      paths: ~
+      protocols:
+      - http
+      - https
+      destinations: ~
+      name: dev-lexwebsite
+      updated_at: 1767521164
+      id: f25bf981-8e68-47d7-ba62-263f249c3e39
+      methods: ~
+    plugins:
+    - consumer: ~
+      created_at: 1768476535
+      updated_at: 1768476713
+      service: ~
+      route: e3967b1d-971b-4e40-b1ab-df1e28f55d04
+      instance_name: ~
+      enabled: true
+      config:
+        key_in_header: false
+        realm: ~
+        key_in_query: false
+        key_in_body: true
+        run_on_preflight: true
+        hide_credentials: false
+        key_names:
+        - api_key
+        anonymous: ~
+      protocols:
+      - http
+      - https
+      name: key-auth
+      tags: ~
+      id: 161ce442-ffdd-4b76-8efd-846360f79017
+    snis:
+    - name: apitest.local.lexmount.net
+      created_at: 1767604338
+      updated_at: 1767604338
+      tags: []
+      id: 1fe972c8-1673-4af9-a28b-190272a77e62
+      certificate: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
+    - name: opstest.local.lexmount.net
+      created_at: 1768357178
+      updated_at: 1768357178
+      tags: []
+      id: 40ac471f-0302-4a7c-810d-dc1dfc4402ff
+      certificate: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
+    - name: test.local.lexmount.net
+      created_at: 1767523516
+      updated_at: 1767523516
+      tags: ~
+      id: c8370bd1-c58a-412c-a489-059d64260a93
+      certificate: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
+      KONG_ADMIN_GUI_API_URL: "http://test.local.lexmount.net:8081/api"
