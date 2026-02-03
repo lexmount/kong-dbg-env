@@ -9,6 +9,23 @@ data:
   kong.yml: |
     _format_version: '3.0'
     _transform: false
+    certificates:
+    - cert_alt: ~
+      created_at: 1767523516
+      updated_at: 1769429091
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
+
+        -----BEGIN CERTIFICATE-----
+        -----END CERTIFICATE-----
+      snis: ~
+      key: |-
+        -----BEGIN EC PRIVATE KEY-----
+        -----END EC PRIVATE KEY-----
+      tags: []
+      id: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
+      key_alt: ~
 
     parameters:
     - value: e55d5c5a-cba3-4c1a-95c0-7533bf86a746
@@ -257,4 +274,3 @@ data:
       tags: ~
       id: c8370bd1-c58a-412c-a489-059d64260a93
       certificate: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
-      KONG_ADMIN_GUI_API_URL: "http://test.local.lexmount.net:8081/api"
