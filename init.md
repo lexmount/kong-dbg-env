@@ -14,7 +14,6 @@ GRANT ALL ON SCHEMA public TO k8s_kong_dbg_user;
 psql -h 10.2.62.142 -p 5432 -U k8s_kong_dbg_user -d k8s_kong_dbg
 ```
 
-
 # kube port forward
 ```bash
 kubectl port-forward --address 0.0.0.0 -n system-dbg svc/kong-admin 8002:8002
