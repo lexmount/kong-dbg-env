@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: kong-migrations
-  namespace: system
+  namespace: system-dbg
 spec:
   template:
     spec:

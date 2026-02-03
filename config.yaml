@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kong-config
-  namespace: system
+  namespace: system-dbg
 data:
   # 将你的 kong.yaml 内容粘贴在这里
   kong.yaml: |
