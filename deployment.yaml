@@ -29,13 +29,13 @@ spec:
         - name: KONG_DATABASE
           value: "postgres"
         - name: KONG_PG_DATABASE
-          value: "k8s_kong"
+          value: "k8s_kong_dbg"
         - name: KONG_PG_HOST
           value: "postgres-service.default.svc.cluster.local"
         - name: KONG_PG_PORT
           value: "5432"
         - name: KONG_PG_USER
-          value: "k8s_kong"
+          value: "k8s_kong_dbg_user"
         - name: KONG_PG_PASSWORD
           valueFrom:
             secretKeyRef:
