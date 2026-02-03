@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-admin
+  namespace: system-dbg
+spec:
+  type: ClusterIP
+  ports:
+  - name: admin-api
+    port: 8001
+    targetPort: 8001
+  - name: admin-gui
+    port: 8002
+    targetPort: 8002
+  selector:
+    app: kong

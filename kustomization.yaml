@@ -7,3 +7,4 @@ resources:
   - config.yaml
   - job.yaml
   - deployment.yaml
+  - service.yaml
