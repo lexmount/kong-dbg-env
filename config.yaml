@@ -4,7 +4,7 @@ metadata:
   name: kong-config
   namespace: system-dbg
 data:
-  KONG_ADMIN_GUI_API_URL: "http://10.3.3.176:8001/"
+  KONG_ADMIN_GUI_API_URL: "http://10.3.3.176:8001"
   # 将你的 kong.yml 内容粘贴在这里
   kong.yml: |
     _format_version: '3.0'
