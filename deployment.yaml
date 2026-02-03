@@ -62,10 +62,17 @@ spec:
           name: admin-api
         - containerPort: 8002
           name: admin-gui
+        resources:
+          requests:
+            cpu: "2"
+            memory: 4Gi
+          limits:
+            cpu: "2"
+            memory: 4Gi
         volumeMounts:
         - name: kong-config-vol
-          mountPath: /opt/kong/kong.yaml
-          subPath: kong.yaml
+          mountPath: /opt/kong/kong.yml
+          subPath: kong.yml
         - name: kong-prefix-vol
           mountPath: /var/run/kong
         - name: tmp-vol
