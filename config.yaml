@@ -13,16 +13,7 @@ data:
     - cert_alt: ~
       created_at: 1767523516
       updated_at: 1769429091
-      cert: |-
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
-
-        -----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----
       snis: ~
-      key: |-
-        -----BEGIN EC PRIVATE KEY-----
-        -----END EC PRIVATE KEY-----
       tags: []
       id: 7beeb1bf-441b-48c9-9538-cb1bb60672e1
       key_alt: ~
