@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+  namespace: system
+data:
+  # 将你的 kong.yaml 内容粘贴在这里
+  kong.yaml: |
+    _format_version: "1.1"
+    services: []
+  KONG_ADMIN_GUI_API_URL: "placeholder-kong-admin-gui-api-url"

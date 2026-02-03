@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kong-migrations
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+      - name: kong-migrations
+        image: code.lexmount.net/wangli/kong:20251231
+        command: ["/bin/sh", "-c", "(kong migrations bootstrap || echo 'Database already bootstrapped') && kong migrations up && kong migrations finish"]
+        env:
+        - name: KONG_DATABASE
+          value: "postgres"
+        - name: KONG_PG_DATABASE
+          value: "k8s_kong_dbg"
+        - name: KONG_PG_HOST
+          value: "postgres-service.default.svc.cluster.local"
+        - name: KONG_PG_PORT
+          value: "5432"
+        - name: KONG_PG_USER
+          value: "k8s_kong_dbg_user"
+        - name: KONG_PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kong-postgres-password
+              key: password
+      restartPolicy: OnFailure

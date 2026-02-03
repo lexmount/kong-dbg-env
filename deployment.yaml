@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong
+  namespace: system
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kong
+  template:
+    metadata:
+      labels:
+        app: kong
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: lexmount/kong
+                operator: In
+                values:
+                - "true"
+      containers:
+      - name: kong
+        image: code.lexmount.net/wangli/kong:20251231
+        env:
+        - name: KONG_DATABASE
+          value: "postgres"
+        - name: KONG_PG_DATABASE
+          value: "k8s_kong"
+        - name: KONG_PG_HOST
+          value: "postgres-service.default.svc.cluster.local"
+        - name: KONG_PG_PORT
+          value: "5432"
+        - name: KONG_PG_USER
+          value: "k8s_kong"
+        - name: KONG_PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kong-postgres-password
+              key: password
+        # 其他环境变量
+        - name: KONG_PROXY_LISTEN
+          value: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
+        - name: KONG_ADMIN_LISTEN
+          value: "0.0.0.0:8001"
+        - name: KONG_ADMIN_GUI_LISTEN
+          value: "0.0.0.0:8002"
+        - name: KONG_ADMIN_GUI_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kong-config
+              key: KONG_ADMIN_GUI_API_URL
+        ports:
+        - containerPort: 8000
+          name: proxy
+        - containerPort: 8443
+          name: proxy-ssl
+        - containerPort: 8001
+          name: admin-api
+        - containerPort: 8002
+          name: admin-gui
+        volumeMounts:
+        - name: kong-config-vol
+          mountPath: /opt/kong/kong.yaml
+          subPath: kong.yaml
+        - name: kong-prefix-vol
+          mountPath: /var/run/kong
+        - name: tmp-vol
+          mountPath: /tmp
+        livenessProbe:
+          exec:
+            command: ["kong", "health"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command: ["kong", "health"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: kong-config-vol
+        configMap:
+          name: kong-config
+      - name: kong-prefix-vol
+        emptyDir: {}
+      - name: tmp-vol
+        emptyDir: {}
