@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-plugin-config
+  namespace: system-dbg
+data:
+  handler.lua: |
+    -- kong/plugins/projectid-consumer-check/handler.lua
+    local kong = kong
+
+    local Plugin = {
+      PRIORITY = 900,  -- 确保在大多数业务插件之前；需要在 key-auth 之后运行时，看下面说明
+      VERSION = "0.1.0",
+    }
+
+    local function contains(tbl, v)
+      for _, x in ipairs(tbl) do
+        if x == v then return true end
+      end
+      return false
+    end
+
+    function Plugin:access(conf)
+      -- 1) 确认 content-type
+      local ct = kong.request.get_header("content-type") or ""
+      ct = ct:lower()
+      local matched = false
+      for _, allowed in ipairs(conf.content_types) do
+        if ct:find(allowed, 1, true) then
+          matched = true
+          break
+        end
+      end
+
+      if not matched then
+        -- 非 JSON 等类型：你可以选择直接跳过，或直接拒绝
+        return
+      end
+
+      -- 2) 取已认证 consumer（前置：需要先过 key-auth）
+      local consumer = kong.client.get_consumer()
+      if not consumer then
+        return kong.response.exit(401, { message = "Unauthenticated: no consumer found (did key-auth run?)" })
+      end
+
+      local consumer_val
+      if conf.compare_to == "id" then
+        consumer_val = consumer.id
+      elseif conf.compare_to == "custom_id" then
+        consumer_val = consumer.custom_id
+      else -- username
+        consumer_val = consumer.username
+      end
+
+      if not consumer_val then
+        return kong.response.exit(403, { message = "Consumer missing field: " .. conf.compare_to })
+      end
+
+      -- 3) 读 body
+      local body, err = kong.request.get_body()
+      if not body then
+        return kong.response.exit(400, { message = "Invalid body: " .. (err or "unknown error") })
+      end
+
+      local projectid = body[conf.projectid_field]
+
+      if projectid == nil or projectid == "" then
+        if conf.allow_missing_projectid then
+          return
+        end
+        return kong.response.exit(400, { message = "Missing field in body: " .. conf.projectid_field })
+      end
+
+      -- 4) 对比
+      if tostring(projectid) ~= tostring(consumer_val) then
+        return kong.response.exit(403, {
+          message = "projectID does not match consumer",
+          projectID = tostring(projectid),
+          consumer_field = conf.compare_to,
+        })
+      end
+    end
+
+    return Plugin
+  schema.lua: |
+    -- kong/plugins/projectid-consumer-check/schema.lua
+    local typedefs = require "kong.db.schema.typedefs"
+
+    return {
+      name = "projectid-consumer-check",
+      fields = {
+        { consumer = typedefs.no_consumer }, -- 插件不绑定单个 consumer
+        { protocols = typedefs.protocols_http },
+        { config = {
+            type = "record",
+            fields = {
+              { projectid_field = { type = "string", default = "project_id" } },
+              { compare_to = { type = "string", one_of = { "id", "custom_id", "username" }, default = "id" } },
+              { content_types = {
+                  type = "array",
+                  default = { "application/json" },
+                  elements = { type = "string" },
+                }
+              },
+              { allow_missing_projectid = { type = "boolean", default = false } },
+            },
+          },
+        },
+      },
+    }
+    

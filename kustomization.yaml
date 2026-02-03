@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - secret.yaml
   - config.yaml
+  - plugin.yaml
   - job.yaml
   - deployment.yaml
   - service.yaml

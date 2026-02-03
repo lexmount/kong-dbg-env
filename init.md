@@ -19,3 +19,23 @@ psql -h 10.2.62.142 -p 5432 -U k8s_kong_dbg_user -d k8s_kong_dbg
 kubectl port-forward --address 0.0.0.0 -n system-dbg svc/kong-admin 8002:8002
 kubectl port-forward --address 0.0.0.0 -n system-dbg svc/kong-admin 8001:8001
 ```
+
+
+### cli相关
+清理所有数据重新bootstrap
+```bash
+kong migrations reset
+kong migrations bootstrap
+```
+### api相关
+
+#### 列出所有service
+
+```bash
+curl http://kong-admin.system-dbg.svc.cluster.local:8001/services
+```
+
+#### 列出所有plugin
+```bash
+curl http://kong-admin.system-dbg.svc.cluster.local:8001/plugins
+```

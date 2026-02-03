@@ -75,6 +75,12 @@ spec:
         - name: kong-config-vol
           mountPath: /opt/kong/kong.yml
           subPath: kong.yml
+        - name: kong-plugin-config-vol
+          mountPath: /opt/kong/plugins/projectid-consumer-check
+          subPath: handler.lua
+        - name: kong-plugin-config-vol
+          mountPath: /opt/kong/plugins/projectid-consumer-check
+          subPath: schema.lua
         - name: kong-prefix-vol
           mountPath: /var/run/kong
         - name: tmp-vol
@@ -101,3 +107,6 @@ spec:
         emptyDir: {}
       - name: tmp-vol
         emptyDir: {}
+      - name: kong-plugin-config-vol
+        configMap:
+          name: kong-plugin-config
