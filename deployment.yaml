@@ -41,6 +41,8 @@ spec:
             secretKeyRef:
               name: kong-postgres-password-dbg
               key: password
+        - name: KONG_NGINX_WORKER_PROCESSES
+          value: "2"
         # 其他环境变量
         - name: KONG_PROXY_LISTEN
           value: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
