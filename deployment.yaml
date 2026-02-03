@@ -76,10 +76,10 @@ spec:
           mountPath: /opt/kong/kong.yml
           subPath: kong.yml
         - name: kong-plugin-config-vol
-          mountPath: /usr/local/share/lua/5.1/kong/plugins/projectid-consumer-check
+          mountPath: /usr/local/share/lua/5.1/kong/plugins/projectid-consumer-check/handler.lua
           subPath: handler.lua
         - name: kong-plugin-config-vol
-          mountPath: /usr/local/share/lua/5.1/kong/plugins/projectid-consumer-check
+          mountPath: /usr/local/share/lua/5.1/kong/plugins/projectid-consumer-check/schema.lua
           subPath: schema.lua
         - name: kong-prefix-vol
           mountPath: /var/run/kong
