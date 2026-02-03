@@ -8,4 +8,4 @@ data:
   kong.yaml: |
     _format_version: "1.1"
     services: []
-  KONG_ADMIN_GUI_API_URL: "placeholder-kong-admin-gui-api-url"
+  KONG_ADMIN_GUI_API_URL: "http://test.local.lexmount.net:8081/api"
